@@ -7,21 +7,19 @@ const loader = document.getElementById("loader");
 
 let apiQuotes = [];
 
-// Show loading
-function loading() {
+function showLoadingSpinner() {
   loader.hidden = false;
   quoteContainer.hidden = true;
 }
 
-// Hide loading
-function complete() {
+function removeLoadingSpinner() {
   quoteContainer.hidden = false;
   loader.hidden = true;
 }
 
 // Show new quote
 function newQuote() {
-  loading();
+  showLoadingSpinner();
   const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
 
   authorText.textContent = quote.a ?? "Unknown";
@@ -35,7 +33,7 @@ function newQuote() {
 
   // Set quote, hide loader
   quoteText.textContent = quote.q;
-  complete();
+  removeLoadingSpinner();
 }
 
 // Get Quotes From API
@@ -44,7 +42,7 @@ async function getQuotes() {
     "https://api.allorigins.win/get?url=https://zenquotes.io/api/quotes";
 
   try {
-    loading();
+    showLoadingSpinner();
     const response = await fetch(apiUrl);
 
     const data = await response.json();
@@ -61,7 +59,9 @@ async function getQuotes() {
 
 // Tweet quote
 function tweetQuote() {
-  const twitterUrl = `https://twitter.com/intent/tweet?text=${quoteText.textContent} - ${authorText.textContent}`;
+  const twitterUrl = `https://twitter.com/intent/tweet?text=${`"${quoteText.textContent}"`} - ${
+    authorText.textContent
+  }`;
   window.open(twitterUrl, "_blank");
 }
 
