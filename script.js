@@ -23,7 +23,6 @@ function complete() {
 function newQuote() {
   loading();
   const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
-  console.log("quote:", quote);
 
   authorText.textContent = quote.a ?? "Unknown";
 
@@ -47,15 +46,11 @@ async function getQuotes() {
   try {
     loading();
     const response = await fetch(apiUrl);
-    console.log("response: ", response);
 
     const data = await response.json();
-    console.log("data", data);
 
     // Parse the contents as JSON
     apiQuotes = JSON.parse(data.contents);
-
-    console.log("apiQuotes", apiQuotes);
   } catch (error) {
     // Catch error here (use the local quotes instead)
     apiQuotes = localQuotes;
